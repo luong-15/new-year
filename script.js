@@ -2296,36 +2296,47 @@ if (IS_HEADER) {
 const textCanvas = document.getElementById('text-canvas');
 const ctx = textCanvas.getContext('2d');
 
-// Set canvas dimensions (important for proper scaling)
-textCanvas.width = 700;
-textCanvas.height = 200;
-
-// Create gradient (mimicking the SVG gradient)
-const gradient = ctx.createLinearGradient(0, 0, textCanvas.width, 0);
-gradient.addColorStop(0, "red");
-gradient.addColorStop(0.5, "yellow");
-gradient.addColorStop(1, "white");
-
-ctx.fillStyle = gradient;
-
-// Set font styles
-ctx.font = "bold 45px sans-serif";
-ctx.textAlign = "center";
-ctx.textBaseline = "middle";
-
-// Draw the text (adjust x and y for positioning)
-ctx.fillText("Happy new year", textCanvas.width / 2, textCanvas.height / 2 - 18);
-ctx.font = "bold 30px sans-serif";
-ctx.fillText("2025", textCanvas.width / 2, textCanvas.height / 2 + 18);
-
-// Scale the canvas to fit the container (optional)
-function resizeCanvas() {
-	textCanvas.style.width = "auto";
-	textCanvas.style.height = "auto";
+// Set up responsive dimensions
+function setCanvasDimensions() {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+  textCanvas.width = width;
+  textCanvas.height = height * 0.2; // Adjust the height as needed
 }
 
-window.addEventListener('resize', resizeCanvas);
-resizeCanvas();
+// Create gradient (mimicking the SVG gradient)
+function createGradient() {
+  const gradient = ctx.createLinearGradient(0, 0, textCanvas.width, 0);
+  gradient.addColorStop(0, "red");
+  gradient.addColorStop(0.5, "yellow");
+  gradient.addColorStop(1, "white");
+  return gradient;
+}
+
+// Draw the text
+function drawText() {
+  const gradient = createGradient();
+  ctx.fillStyle = gradient;
+  ctx.font = "bold " + (textCanvas.width * 0.1) + "px sans-serif";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+
+  const fontSize = textCanvas.width * 0.1;
+  ctx.fillText("Happy new year", textCanvas.width / 2, textCanvas.height / 2 - fontSize / 2);
+  ctx.font = "bold " + (fontSize * 0.66) + "px sans-serif";
+  ctx.fillText("2025", textCanvas.width / 2, textCanvas.height / 2 + fontSize / 1.5);
+}
+
+// Event listener for resize
+window.addEventListener('resize', function() {
+  setCanvasDimensions();
+  drawText();
+});
+
+// Initial setup
+setCanvasDimensions();
+drawText();
+// resizeCanvas();
 
 const audio = document.getElementById('myAudio');
 const playBtn = document.getElementById('playBtn');
